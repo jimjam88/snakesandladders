@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Snake &amp; Ladders</title>
+    <style type="text/css">
+    #dice {
+        font-size: 30px;
+    }
+    #info {
+        font-size: 20px;
+    }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <canvas id="game">Welcome to the 21<sup>st</sup> century... Please update your browser!</canvas>
+    </div>
+    <button id="play">Play</button>
+    <span id="dice"></span>
+    <span id="info"></span>
+
+    <script type="text/javascript" src="js/board.js"></script>
+    <script type="text/javascript" src="js/game.js"></script>
+    <script type="text/javascript">
+
+        var board = new Board(document.getElementById('game'));
+
+        var game = new Game(board);
+            game.addPlayButtonListener(document.getElementById('dice'));
+
+    </script>
+</body>
+</html>
