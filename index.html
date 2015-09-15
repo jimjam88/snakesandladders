@@ -23,11 +23,8 @@
     <script type="text/javascript" src="js/game.js"></script>
     <script type="text/javascript">
 
-        var board = new Board(document.getElementById('game'));
-
-        var game = new Game(board);
-            game.addPlayButtonListener(document.getElementById('dice'));
-
+        var game = new Game(new Board(document.getElementById('game')));
+        
     </script>
 </body>
 </html>
