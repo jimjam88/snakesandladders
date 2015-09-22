@@ -106,7 +106,7 @@ Board.prototype.drawNumbers = function() {
 Board.prototype.drawSnakes = function() {
     var n, start, end, color = '#F44336', offset = this.blockSize / 2;
 
-    for (n = 9; n <= 100; n += 9) {
+    for (n = 9; n < 100; n += 9) {
         start = this.getGridPosition(n);
         end = this.getGridPosition(n - 3);
 
@@ -119,43 +119,27 @@ Board.prototype.drawSnakes = function() {
 
 // Get the position on the x-axis given a cell number
 Board.prototype.getXposition = function(number) {
-    // This is whole function is awful but can't think of a better way.
-    // A mathematician is required!
-    var i, j, xPositions = [
-        [1,20,21,40,41,60,61,80,81,100],
-        [2,19,22,39,42,59,62,79,82,99],
-        [3,18,23,38,43,58,63,78,83,98],
-        [4,17,24,37,44,57,64,77,84,97],
-        [5,16,25,36,45,56,65,76,85,96],
-        [6,15,26,35,46,55,66,75,86,95],
-        [7,14,27,34,47,54,67,74,87,94],
-        [8,13,28,33,48,53,68,73,88,93],
-        [9,12,29,32,49,52,69,72,89,92],
-        [10,11,30,31,50,51,70,71,90,91]
-    ];
-
-    for (i = 0; i < xPositions.length; i++) {
-        for (j = 0; j < xPositions[i].length; j++) {
-            if (xPositions[i][j] === number) {
-                if (i < 1) {
-                    return this.cellSize / 2;
-                }
-
-                return (this.cellSize * (i + 1)) - (this.cellSize / 2);
-            }
-        }
+    // Mathboy to the rescue!
+    // First lets determine whether its going left or right (1 is left, 0 is right)
+    var leftOrRight = Math.floor((number-0.5) / 10.0) % 2;
+    // Second determine the position on that row
+    var position    = number % 10;
+    if (position == 0) {
+        position = 10;
     }
-
-    throw new Error(number + ' is not on the board!');
+    // Now calculate the X position
+    if (leftOrRight == 1) {
+        position = 10 - (position-1);
+    }
+        return (this.cellSize * position) - (this.cellSize / 2);
 };
 
 // Get the position on the y-axis given a cell number
 Board.prototype.getYposition = function(number) {
-    // Get the next multiple of 10
-    var mod10 = number % 10;
-    var multiple = mod10 === 0 ? number : number - mod10 + 10;
+    // Get the next multiple of 10 -- in 1 line please #Mathboy
+    var multiple = Math.ceil(number / 10);
 
-    return this.boardSize - ((multiple / 10) * this.cellSize) + (this.cellSize / 2);
+    return this.boardSize - (multiple * this.cellSize) + (this.cellSize / 2);
 };
 
 // Get the x and y vertices given a cell number
